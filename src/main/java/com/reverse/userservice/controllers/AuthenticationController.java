@@ -30,4 +30,15 @@ public class AuthenticationController {
             return ResponseEntity.status(401).build();
         }
     }
+
+    @PostMapping(value = "/validate")
+    public ResponseEntity validateJwt(@RequestBody ReverseJWT jwt) {
+
+        boolean status = this.valService.validateJwt(jwt);
+
+        if(status) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(401).build();
+    }
 }

@@ -18,6 +18,7 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.UUID;
 
+@NoArgsConstructor
 public class ReverseJWT {
 
     private Logger logger = LoggerFactory.getLogger(ReverseJWT.class);
@@ -26,13 +27,21 @@ public class ReverseJWT {
     private String token;
 
     private static int tokenLife = 3600;
-    private final String secret;
-    private final UUID uuid;
+    private UUID uuid;
 
 
     public ReverseJWT(int userID, String secret) {
         this.uuid = UUID.randomUUID();
-        this.secret = secret;
+
+        this.generateToken(userID, secret);
+    }
+
+
+    /**
+     * Generates the JWT token with object attributes.
+     * @param userID The userId for the new token
+     */
+    private void generateToken(int userID, String secret) {
 
         SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
 
@@ -46,7 +55,7 @@ public class ReverseJWT {
      * @return The username from the JWT. Null if the JWT is invalid
      */
     @JsonIgnore
-    public Integer getUserID() {
+    public Integer getUserID(String secret) {
         try {
             Integer userID = Integer.parseInt(Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody().getSubject());
             return userID;

@@ -43,7 +43,7 @@ public class ReverseJWTTests {
         field.setAccessible(true);
         field.set(testReverseJWT, token);
 
-        assertEquals(userID, testReverseJWT.getUserID(), "Incorrect userID returned!");
+        assertEquals(userID, testReverseJWT.getUserID(secret), "Incorrect userID returned!");
     }
 
     @Test
@@ -57,7 +57,7 @@ public class ReverseJWTTests {
         field.setAccessible(true);
         field.set(testReverseJWT, token);
 
-        assertNull(testReverseJWT.getUserID(), "Bad signature not returning null!");
+        assertNull(testReverseJWT.getUserID(secret), "Bad signature not returning null!");
     }
 
     @Test
@@ -71,7 +71,7 @@ public class ReverseJWTTests {
         field.setAccessible(true);
         field.set(testReverseJWT, token);
 
-        assertNull(testReverseJWT.getUserID());
+        assertNull(testReverseJWT.getUserID(secret));
     }
 
     @Test
@@ -85,13 +85,13 @@ public class ReverseJWTTests {
         field.setAccessible(true);
         field.set(testReverseJWT, token);
 
-        assertNull(testReverseJWT.getUserID());
+        assertNull(testReverseJWT.getUserID(secret));
     }
 
     @Test
     public void testGenAndGetUserID() {
         new ReverseJWT(userID, secret);
-        assertEquals(userID, testReverseJWT.getUserID(), "UserID and retreved id do not match!");
+        assertEquals(userID, testReverseJWT.getUserID(secret), "UserID and retreved id do not match!");
     }
 
 }

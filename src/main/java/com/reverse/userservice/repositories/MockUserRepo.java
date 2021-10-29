@@ -7,6 +7,6 @@ import org.springframework.stereotype.Component;
 public class MockUserRepo {
 
     public Credentials getUser() {
-        return new Credentials("testName", "testPass");
+        return new Credentials("testName", "$2a$10$ghIubX.25VrNf2LFtRddh.N7bsuU4I0SvDzKBjmXOQB0P5f4WhSaa");
     }
 }
