@@ -6,8 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class UserServiceApplicationTests {
 
-    @Test
+    /*@Test     TODO - Uncomment this once database is set up
     void contextLoads() {
-    }
+    }*/
 
 }
