@@ -1,6 +1,4 @@
 package com.reverse.userservice.models;
-
-import com.sun.deploy.ui.ImageLoader;
 import lombok.*;
 
 import javax.persistence.*;
