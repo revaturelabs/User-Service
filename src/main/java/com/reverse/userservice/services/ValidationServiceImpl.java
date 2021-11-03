@@ -49,4 +49,15 @@ public class ValidationServiceImpl implements ValidationService{
         }
         return false;
     }
+
+    @Override
+    public boolean validateJwt(ReverseJWT jwt, int userID) {
+        Integer jwtID = jwt.getUserID(secret);
+
+        if(jwtID != null && jwtID.intValue() == userID) {
+            return true;
+        }
+        return false;
+    }
+
 }
