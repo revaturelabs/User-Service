@@ -2,6 +2,7 @@ package com.reverse.userservice.services;
 
 import com.reverse.userservice.models.Credentials;
 import com.reverse.userservice.models.ReverseJWT;
+import com.reverse.userservice.models.User;
 import com.reverse.userservice.repositories.MockUserRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,5 +42,35 @@ public class ValidationServiceTest {
         boolean status = this.validationServiceTest.validateJwt(jwt);
 
         assertTrue(status);
+    }
+
+    @Test
+    void validateJWTTestWithUserSuccess() {
+        ReverseJWT mockJwt = mock(ReverseJWT.class);
+        when(mockJwt.getUserID(secret)).thenReturn(42);
+
+        boolean status = validationServiceTest.validateJwt(mockJwt, 42);
+
+        assertTrue(status, "Validation failed when should have succeeded!");
+    }
+
+    @Test
+    void validateJWTTestWithBadUser() {
+        ReverseJWT mockJwt = mock(ReverseJWT.class);
+        when(mockJwt.getUserID(secret)).thenReturn(5);
+
+        boolean status = validationServiceTest.validateJwt(mockJwt, 42);
+
+        assertFalse(status, "Validation succeeded with bad userID!");
+    }
+
+    @Test
+    void validateJWTTestWithUserFail() {
+        ReverseJWT mockJwt = mock(ReverseJWT.class);
+        when(mockJwt.getUserID(secret)).thenReturn(null);
+
+        boolean status = validationServiceTest.validateJwt(mockJwt, 42);
+
+        assertFalse(status, "Validation succeeded when should have failed!");
     }
 }
