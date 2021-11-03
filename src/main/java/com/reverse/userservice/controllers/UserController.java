@@ -1,21 +1,13 @@
 package com.reverse.userservice.controllers;
 
-<<<<<<< HEAD
-import com.reverse.userservice.services.ValidationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-=======
+
 import com.reverse.userservice.models.User;
-import com.reverse.userservice.services.UserService;
 import com.reverse.userservice.services.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
->>>>>>> 1eab99bbe34af29e996820ce09a58bff15ed59af
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,21 +16,22 @@ import org.springframework.web.bind.annotation.RestController;
 @Component("UserController")
 public class UserController {
 
-<<<<<<< HEAD
-    @Autowired
-    private ValidationService validationService;
-
-    @Autowired
-    public UserController(ValidationService valService) {
-        this.validationService = valService;
-    }
-=======
     private ValidationService valService;
 
     @Autowired
-    public UserController(@Qualifier("validationServiceImpl") ValidationService valService) {
-        this.valService = valService;
-    }
+    private ValidationService validationService;
+
+//    @Autowired
+//    public UserController(ValidationService valService) {
+//        this.validationService = valService;
+//    }
+//
+//
+//
+//    @Autowired
+//    public UserController(@Qualifier("validationServiceImpl") ValidationService valService) {
+//        this.valService = valService;
+//    }
 
     /**
      * createUser*/
@@ -56,5 +49,4 @@ public class UserController {
 
 
 
->>>>>>> 1eab99bbe34af29e996820ce09a58bff15ed59af
 }
