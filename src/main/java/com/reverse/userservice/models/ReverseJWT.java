@@ -21,30 +21,28 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ReverseJWT {
 
-    private Logger logger = LoggerFactory.getLogger(ReverseJWT.class);
+    private final Logger logger = LoggerFactory.getLogger(ReverseJWT.class);
 
     @Getter
     private String token;
 
-    private static int tokenLife = 3600;
     private UUID uuid;
-
-
-    public ReverseJWT(int userID, String secret) {
-        this.uuid = UUID.randomUUID();
-
-        this.generateToken(userID, secret);
-    }
-
 
     /**
      * Generates the JWT token with object attributes.
      * @param userID The userId for the new token
      */
-    private void generateToken(int userID, String secret) {
+    public ReverseJWT(Long userID, String secret) {
+        this.uuid = UUID.randomUUID();
+        this.generateToken(userID, secret);
+    }
+
+
+    private void generateToken(Long userID, String secret) {
 
         SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
 
+        int tokenLife = 3600;
         token = Jwts.builder().setSubject(String.valueOf(userID)).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + tokenLife * 1000)).signWith(key, SignatureAlgorithm.HS512)
                 .setId(this.uuid.toString()).compact();
@@ -55,9 +53,9 @@ public class ReverseJWT {
      * @return The username from the JWT. Null if the JWT is invalid
      */
     @JsonIgnore
-    public Integer getUserID(String secret) {
+    public Long getUserID(String secret) {
         try {
-            Integer userID = Integer.parseInt(Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody().getSubject());
+            Long userID = Long.parseLong(Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody().getSubject());
             return userID;
         } catch(SignatureException e) {
             logger.info("JWT invalid!");

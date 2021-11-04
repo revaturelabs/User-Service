@@ -16,12 +16,13 @@ public class Gender {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "gender", nullable = false, length = 16)
-    private Gender gender;
+    private String gender;
 
     @Override
+    @Generated // This generated tag keeps these lines of code from being counting towards/against test coverage
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Gender)) return false;
@@ -30,6 +31,7 @@ public class Gender {
     }
 
     @Override
+    @Generated // This generated tag keeps these lines of code from being counting towards/against test coverage
     public int hashCode() {
         return Objects.hash(getId(), getGender());
     }

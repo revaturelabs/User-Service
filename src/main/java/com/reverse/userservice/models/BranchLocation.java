@@ -1,9 +1,6 @@
 package com.reverse.userservice.models;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -19,7 +16,7 @@ public class BranchLocation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "branch_name", nullable = false, length = 50)
     private String branchName;
@@ -34,6 +31,7 @@ public class BranchLocation {
     private String country;
 
     @Override
+    @Generated // This generated tag keeps these lines of code from being counting towards/against test coverage
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BranchLocation)) return false;
@@ -42,6 +40,7 @@ public class BranchLocation {
     }
 
     @Override
+    @Generated // This generated tag keeps these lines of code from being counting towards/against test coverage
     public int hashCode() {
         return Objects.hash(getId(), getBranchName(), getCity(), getState(), getCountry());
     }
