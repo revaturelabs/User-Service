@@ -2,9 +2,11 @@ package com.reverse.userservice.services;
 
 import com.reverse.userservice.models.Credentials;
 import com.reverse.userservice.models.User;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component("UserService")
 public interface UserService {
 
     List<User> getAllUsers();
@@ -15,7 +17,7 @@ public interface UserService {
 
     void updateUser(User user);
 
-    public User getUserByID(Integer id);
+    public User getUserByID(Long id);
 
     public void createNewUser(User newUser);
 
