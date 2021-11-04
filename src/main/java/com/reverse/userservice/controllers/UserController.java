@@ -14,10 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import lombok.Setter;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "users")
@@ -25,7 +22,7 @@ public class UserController {
 
     private Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @Qualifier("validationServiceImpl")
+    //@Qualifier("validationServiceImpl")
     @Autowired
     @Setter
     private ValidationService valService;
@@ -38,6 +35,7 @@ public class UserController {
      * createUser*/
     @PostMapping(path = "/createUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createUser(@RequestBody User user) {
+        System.out.println("Controller is on");
         logger.debug("Begin createUser");
 
         userService.createNewUser(user);
@@ -89,7 +87,7 @@ public class UserController {
         }
     }
 
-    @PostMapping(path = "/getUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/getUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUserByID(@RequestBody Long userID) {
         logger.debug("Start getUserByID");
         User user = userService.getUserByID(userID);
