@@ -16,7 +16,7 @@ public class BranchLocation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "branch_name", nullable = false, length = 50)
     private String branchName;

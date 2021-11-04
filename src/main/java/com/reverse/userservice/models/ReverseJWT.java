@@ -21,30 +21,28 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ReverseJWT {
 
-    private Logger logger = LoggerFactory.getLogger(ReverseJWT.class);
+    private final Logger logger = LoggerFactory.getLogger(ReverseJWT.class);
 
     @Getter
     private String token;
 
-    private static int tokenLife = 3600;
     private UUID uuid;
-
-
-    public ReverseJWT(Long userID, String secret) {
-        this.uuid = UUID.randomUUID();
-
-        this.generateToken(userID, secret);
-    }
-
 
     /**
      * Generates the JWT token with object attributes.
      * @param userID The userId for the new token
      */
+    public ReverseJWT(Long userID, String secret) {
+        this.uuid = UUID.randomUUID();
+        this.generateToken(userID, secret);
+    }
+
+
     private void generateToken(Long userID, String secret) {
 
         SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
 
+        int tokenLife = 3600;
         token = Jwts.builder().setSubject(String.valueOf(userID)).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + tokenLife * 1000)).signWith(key, SignatureAlgorithm.HS512)
                 .setId(this.uuid.toString()).compact();

@@ -1,35 +1,26 @@
 package com.reverse.userservice.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reverse.userservice.models.Credentials;
 import com.reverse.userservice.models.ReverseJWT;
 import com.reverse.userservice.services.ValidationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class AuthenticationControllerTest {
 
-    private AuthenticationController testAuthController;
+    private UserController testAuthController;
     private ValidationService mockValService;       // Will hold the mocked ValidationService.
 
     @BeforeEach
     public void init() {
         mockValService = mock(ValidationService.class);     // Give mockValService a mocked ValidationService.
-        testAuthController = new AuthenticationController(mockValService);      // Can use the mock like any other class
+        testAuthController = new UserController();          // Can use the mock like any other class
+        testAuthController.setValidationService(mockValService);
     }
 
     @Test

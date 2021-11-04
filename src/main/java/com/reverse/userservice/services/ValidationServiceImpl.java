@@ -31,10 +31,10 @@ public class ValidationServiceImpl implements ValidationService{
     @Override
     public ReverseJWT validateCredentials(Credentials loginRequest) throws Exception {
 
-        User query = this.userRepo.findByUsername(loginRequest.getUser_name());
+        User query = this.userRepo.findByUsername(loginRequest.getUsername());
 
         if(query!=null) {
-            if(BCrypt.checkpw(loginRequest.getUser_password(), query.getPassword())) {
+            if(BCrypt.checkpw(loginRequest.getPassword(), query.getPassword())) {
                 return new ReverseJWT(query.getId(), this.secret);
             }
         }

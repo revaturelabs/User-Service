@@ -7,10 +7,7 @@ import java.util.List;
 
 public interface UserService {
 
-
     List<User> getAllUsers();
-
-
 
     User getUserByUsername(String username);
 
@@ -20,11 +17,7 @@ public interface UserService {
 
     public User getUserByID(Integer id);
 
-
-
     public void createNewUser(User newUser);
-
-
 
     public Credentials getUserCredentials(Credentials credentials);
 }
