@@ -30,7 +30,7 @@ public class ReverseJWT {
     private UUID uuid;
 
 
-    public ReverseJWT(int userID, String secret) {
+    public ReverseJWT(Long userID, String secret) {
         this.uuid = UUID.randomUUID();
 
         this.generateToken(userID, secret);
@@ -41,7 +41,7 @@ public class ReverseJWT {
      * Generates the JWT token with object attributes.
      * @param userID The userId for the new token
      */
-    private void generateToken(int userID, String secret) {
+    private void generateToken(Long userID, String secret) {
 
         SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
 
@@ -55,9 +55,9 @@ public class ReverseJWT {
      * @return The username from the JWT. Null if the JWT is invalid
      */
     @JsonIgnore
-    public Integer getUserID(String secret) {
+    public Long getUserID(String secret) {
         try {
-            Integer userID = Integer.parseInt(Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody().getSubject());
+            Long userID = Long.parseLong(Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody().getSubject());
             return userID;
         } catch(SignatureException e) {
             logger.info("JWT invalid!");

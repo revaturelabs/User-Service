@@ -27,6 +27,7 @@ public class ValidationServiceTest {
     @Test
     public void validateCredentialsTest() throws Exception{
         User user = new User();
+        user.setId(10L);
         user.setUsername("test");
         user.setPassword("$2a$10$XL3q/vz6yI46hl/6kJQXyuEAQ0B.8tGEjO221CbJlaR.74opT90tW");
         Credentials credentials = new Credentials("test", "test");
@@ -39,10 +40,13 @@ public class ValidationServiceTest {
     }
 
     @Test void validateJwtTest() {
-        ReverseJWT jwt = new ReverseJWT(10, this.secret);
-
+        ReverseJWT jwt = new ReverseJWT(10L, this.secret);
         boolean status = this.validationServiceTest.validateJwt(jwt);
-
         assertTrue(status);
+
+        ReverseJWT jwt2 = new ReverseJWT(null, this.secret);
+        boolean failure = this.validationServiceTest.validateJwt(jwt2);
+        assertFalse(failure);
+
     }
 }
