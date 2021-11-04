@@ -17,7 +17,7 @@ public class ReverseJWTTests {
 
     private ReverseJWT testReverseJWT;
 
-    private int userID = 10;
+    private Long userID = 10L;
     private String secret = "g9vcBtznWr+HpLBjBi3IW/cOOd8gjnJYJ32ftiNDpBBPtcHO3ac/4IiK4eCz8x4xlEH0o6E53tS8UVOSQyY+yg==";
 
     @BeforeEach
