@@ -23,7 +23,9 @@ public class UserControllerTest {
     public void init() {
         mockValidationService = mock(ValidationService.class);
         mockUserService = mock(UserService.class);
-        testUserController = new UserController(mockValidationService, mockUserService);
+        testUserController = new UserController();
+        testUserController.setValService(mockValidationService);
+        testUserController.setUserService(mockUserService);
     }
 
     @Test

@@ -23,7 +23,9 @@ public class AuthenticationControllerTest {
     public void init() {
         mockValService = mock(ValidationService.class);     // Give mockValService a mocked ValidationService.
         mockUserService = mock(UserService.class);
-        testAuthController = new UserController(mockValService, mockUserService);          // Can use the mock like any other class
+        testAuthController = new UserController();
+        testAuthController.setValService(mockValService);       // Can use the mock like any other class
+        testAuthController.setUserService(mockUserService);     // Can use the mock like any other class
     }
 
     @Test

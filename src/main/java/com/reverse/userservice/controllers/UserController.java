@@ -25,14 +25,14 @@ public class UserController {
 
     private Logger logger = LoggerFactory.getLogger(UserController.class);
 
+    @Qualifier("validationServiceImpl")
+    @Autowired
+    @Setter
     private ValidationService valService;
-    private UserService userService;
 
     @Autowired
-    public UserController(@Qualifier("validationServiceImpl") ValidationService valService, UserService userService) {
-        this.valService = valService;
-        this.userService = userService;
-    }
+    @Setter
+    private UserService userService;
 
     /**
      * createUser*/
