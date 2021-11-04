@@ -1,5 +1,6 @@
 package com.reverse.userservice.models;
 
+import lombok.Generated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class ImageLocation {
     private String url;
 
     @Override
+    @Generated
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ImageLocation)) return false;
@@ -31,6 +33,7 @@ public class ImageLocation {
     }
 
     @Override
+    @Generated
     public int hashCode() {
         return Objects.hash(getId(), getUrl());
     }

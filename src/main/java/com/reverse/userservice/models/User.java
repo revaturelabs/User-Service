@@ -1,10 +1,7 @@
 package com.reverse.userservice.models;
 
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -21,7 +18,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "username", nullable = false, length = 50)
     private String username;
@@ -54,6 +51,7 @@ public class User {
     private ProfilePicture profilePicture;
 
     @Override
+    @Generated
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
@@ -62,6 +60,7 @@ public class User {
     }
 
     @Override
+    @Generated
     public int hashCode() {
         return Objects.hash(getId(), getUsername(), getEmail(), getFirstName(), getLastName(), getPassword(), getDateOfBirth(), getGender(), getBranch(), getProfilePicture());
     }

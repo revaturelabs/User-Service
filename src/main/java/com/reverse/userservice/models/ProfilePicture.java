@@ -25,6 +25,7 @@ public class ProfilePicture {
     private String imageName;
 
     @Override
+    @Generated
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ProfilePicture)) return false;
@@ -33,6 +34,7 @@ public class ProfilePicture {
     }
 
     @Override
+    @Generated
     public int hashCode() {
         return Objects.hash(getId(), getImageLocation(), getImageName());
     }

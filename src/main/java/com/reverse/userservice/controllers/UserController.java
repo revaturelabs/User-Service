@@ -21,29 +21,10 @@ public class UserController {
     @Autowired
     private ValidationService validationService;
 
-//    @Autowired
-//    public UserController(ValidationService valService) {
-//        this.validationService = valService;
-//    }
-//
-//
-//
-//    @Autowired
-//    public UserController(@Qualifier("validationServiceImpl") ValidationService valService) {
-//        this.valService = valService;
-//    }
-
     /**
      * createUser*/
     @PostMapping("/users/createUser")
     public ResponseEntity createUser(@RequestBody User user) {
-        /*try {
-            User _user = userRepository
-                    .save(new User(user.getUsername(), user.getPassword(), user.getEmail(), user.getUserLevel()));
-            return new ResponseEntity<>(_user, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }*/
         return null;
     }
 
