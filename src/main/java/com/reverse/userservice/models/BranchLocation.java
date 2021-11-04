@@ -31,7 +31,7 @@ public class BranchLocation {
     private String country;
 
     @Override
-    @Generated
+    @Generated // This generated tag keeps these lines of code from being counting towards/against test coverage
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof BranchLocation)) return false;
@@ -40,7 +40,7 @@ public class BranchLocation {
     }
 
     @Override
-    @Generated
+    @Generated // This generated tag keeps these lines of code from being counting towards/against test coverage
     public int hashCode() {
         return Objects.hash(getId(), getBranchName(), getCity(), getState(), getCountry());
     }

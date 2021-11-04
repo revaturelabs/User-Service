@@ -75,10 +75,14 @@ class GetInHouseVariablesControllerTest {
     @Test
     void getAllGenders() {
         assertNull(controller.getAllGenders());
+
+        //TODO - Write actual tests for the controller here
     }
 
     @Test
     void getAllLocations() {
         assertNull(controller.getAllLocations());
+
+        //TODO - Write actual tests for the controller here
     }
 }

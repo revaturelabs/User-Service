@@ -25,7 +25,7 @@ public class ProfilePicture {
     private String imageName;
 
     @Override
-    @Generated
+    @Generated // This generated tag keeps these lines of code from being counting towards/against test coverage
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ProfilePicture)) return false;
@@ -34,7 +34,7 @@ public class ProfilePicture {
     }
 
     @Override
-    @Generated
+    @Generated // This generated tag keeps these lines of code from being counting towards/against test coverage
     public int hashCode() {
         return Objects.hash(getId(), getImageLocation(), getImageName());
     }

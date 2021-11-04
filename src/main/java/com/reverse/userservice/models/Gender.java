@@ -22,7 +22,7 @@ public class Gender {
     private String gender;
 
     @Override
-    @Generated
+    @Generated // This generated tag keeps these lines of code from being counting towards/against test coverage
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Gender)) return false;
@@ -31,7 +31,7 @@ public class Gender {
     }
 
     @Override
-    @Generated
+    @Generated // This generated tag keeps these lines of code from being counting towards/against test coverage
     public int hashCode() {
         return Objects.hash(getId(), getGender());
     }

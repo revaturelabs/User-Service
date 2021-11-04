@@ -51,7 +51,7 @@ public class User {
     private ProfilePicture profilePicture;
 
     @Override
-    @Generated
+    @Generated // This generated tag keeps these lines of code from being counting towards/against test coverage
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
@@ -60,7 +60,7 @@ public class User {
     }
 
     @Override
-    @Generated
+    @Generated // This generated tag keeps these lines of code from being counting towards/against test coverage
     public int hashCode() {
         return Objects.hash(getId(), getUsername(), getEmail(), getFirstName(), getLastName(), getPassword(), getDateOfBirth(), getGender(), getBranch(), getProfilePicture());
     }
