@@ -10,8 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
-@Component("ValidationService")
+
+@Component("ValidationServiceImpl")
 public class ValidationServiceImpl implements ValidationService{
 
     private UserRepository userRepo;
