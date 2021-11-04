@@ -44,8 +44,8 @@ public class UserControllerTest {
         UserEdit mockUserEdit = mock(UserEdit.class);
 
         when(mockValidationService.validateJwt(mockReverseJWT, 42)).thenReturn(true);
-        when(mockUserService.getUserByID(42)).thenReturn(mockServiceUser);
-        when(mockUser.getId()).thenReturn(42);
+        when(mockUserService.getUserByID(42L)).thenReturn(mockServiceUser);
+        when(mockUser.getId()).thenReturn(42L);
         when(mockUserEdit.getUser()).thenReturn(mockUser);
         when(mockUserEdit.getReverseJWT()).thenReturn(mockReverseJWT);
 
@@ -63,8 +63,8 @@ public class UserControllerTest {
         UserEdit mockUserEdit = mock(UserEdit.class);
 
         when(mockValidationService.validateJwt(mockReverseJWT, 42)).thenReturn(false);
-        when(mockUserService.getUserByID(42)).thenReturn(mockUser);
-        when(mockUser.getId()).thenReturn(42);
+        when(mockUserService.getUserByID(42L)).thenReturn(mockUser);
+        when(mockUser.getId()).thenReturn(42L);
         when(mockUserEdit.getUser()).thenReturn(mockUser);
         when(mockUserEdit.getReverseJWT()).thenReturn(mockReverseJWT);
 
@@ -81,8 +81,8 @@ public class UserControllerTest {
         UserEdit mockUserEdit = mock(UserEdit.class);
 
         when(mockValidationService.validateJwt(mockReverseJWT, 42)).thenReturn(true);
-        when(mockUserService.getUserByID(42)).thenReturn(null);
-        when(mockUser.getId()).thenReturn(42);
+        when(mockUserService.getUserByID(42L)).thenReturn(null);
+        when(mockUser.getId()).thenReturn(42L);
         when(mockUserEdit.getUser()).thenReturn(mockUser);
         when(mockUserEdit.getReverseJWT()).thenReturn(mockReverseJWT);
 
@@ -96,9 +96,9 @@ public class UserControllerTest {
     public void getUserTestSuccess() {
         User mockUser = mock(User.class);
 
-        when(mockUserService.getUserByID(42)).thenReturn(mockUser);
+        when(mockUserService.getUserByID(42L)).thenReturn(mockUser);
 
-        ResponseEntity<User> testResponseEntity = testUserController.getUserByID(42);
+        ResponseEntity<User> testResponseEntity = testUserController.getUserByID(42L);
 
         assertSame(mockUser, testResponseEntity.getBody(), "mockUser not in testResponseEntity body!");
         assertEquals(HttpStatus.OK, testResponseEntity.getStatusCode(), "Incorrect HttpStatus returned!");
@@ -106,9 +106,9 @@ public class UserControllerTest {
 
     @Test
     public void getUserTestFailure() {
-        when(mockUserService.getUserByID(42)).thenReturn(null);
+        when(mockUserService.getUserByID(42L)).thenReturn(null);
 
-        ResponseEntity<User> testResponseEntity = testUserController.getUserByID(42);
+        ResponseEntity<User> testResponseEntity = testUserController.getUserByID(42L);
 
         assertEquals(HttpStatus.NOT_FOUND, testResponseEntity.getStatusCode(), "Incorrect HttpStatus returned!");
     }

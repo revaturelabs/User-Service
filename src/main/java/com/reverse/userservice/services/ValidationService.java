@@ -12,5 +12,5 @@ public interface ValidationService {
 
     boolean validateJwt(ReverseJWT jwt);
 
-    boolean validateJwt(ReverseJWT jwt, int userID);
+    boolean validateJwt(ReverseJWT jwt, long userID);
 }

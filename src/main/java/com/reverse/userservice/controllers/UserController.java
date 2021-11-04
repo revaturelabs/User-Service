@@ -4,6 +4,7 @@ import com.reverse.userservice.controllers.postobjects.UserEdit;
 import com.reverse.userservice.models.Credentials;
 import com.reverse.userservice.models.ReverseJWT;
 import com.reverse.userservice.models.User;
+import com.reverse.userservice.services.UserService;
 import com.reverse.userservice.services.ValidationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +50,7 @@ public class UserController {
     public ResponseEntity<?> checkLoginCredentials(@RequestBody Credentials loginRequest) {
 
         try {
-            ReverseJWT jwt = this.validationService.validateCredentials(loginRequest);
+            ReverseJWT jwt = this.valService.validateCredentials(loginRequest);
             return ResponseEntity.ok().body(jwt);
         } catch (Exception e) {
             return ResponseEntity.status(401).build();
@@ -59,7 +60,7 @@ public class UserController {
     @PostMapping(value = "/validate")
     public ResponseEntity validateJwt(@RequestBody ReverseJWT jwt) {
 
-        boolean status = this.validationService.validateJwt(jwt);
+        boolean status = this.valService.validateJwt(jwt);
 
         if(status) {
             return ResponseEntity.ok().build();
@@ -89,7 +90,7 @@ public class UserController {
     }
 
     @PostMapping(path = "/getUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUserByID(@RequestBody Integer userID) {
+    public ResponseEntity<User> getUserByID(@RequestBody Long userID) {
         logger.debug("Start getUserByID");
         User user = userService.getUserByID(userID);
         if (user != null) {

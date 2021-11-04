@@ -12,13 +12,18 @@ public class SkeleUserService implements UserService{
     }
 
     @Override
-    public User getUserByID(Integer id) {
+    public User getUserByID(Long id) {
         return null;
     }
 
     @Override
     public User getUserByUsername(String username) {
         return null;
+    }
+
+    @Override
+    public void registerNewUser(User user) {
+
     }
 
     @Override
