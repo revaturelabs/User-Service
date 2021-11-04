@@ -1,3 +1,4 @@
+
 package com.reverse.userservice.services;
 
 import com.reverse.userservice.models.Credentials;
@@ -43,3 +44,4 @@ public class ValidationServiceTest {
         assertTrue(status);
     }
 }
+

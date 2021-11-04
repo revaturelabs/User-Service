@@ -2,9 +2,11 @@ package com.reverse.userservice.services;
 
 import com.reverse.userservice.models.Credentials;
 import com.reverse.userservice.models.User;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component("UserService")
 public interface UserService {
 
 

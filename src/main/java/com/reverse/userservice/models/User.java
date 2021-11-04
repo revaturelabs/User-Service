@@ -1,6 +1,7 @@
 package com.reverse.userservice.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,6 +37,7 @@ public class User {
     private String lastName;
 
     @Column(name = "password", nullable = false, length = 24)
+    @JsonIgnore
     private String password;
 
     @Column(name = "date_of_birth", nullable = false)

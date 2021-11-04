@@ -11,4 +11,6 @@ public interface ValidationService {
     ReverseJWT validateCredentials(Credentials loginRequest) throws Exception;
 
     boolean validateJwt(ReverseJWT jwt);
+
+    boolean validateJwt(ReverseJWT jwt, int userID);
 }
