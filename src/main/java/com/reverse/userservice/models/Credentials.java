@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 public class Credentials {
 
-    private String user_name;
+    private String username;
 
-    private String user_password;
+    private String password;
 }
