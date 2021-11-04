@@ -16,6 +16,9 @@ import lombok.Setter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.ws.Response;
+import java.util.Optional;
+
 @RestController
 @RequestMapping(path = "users")
 public class UserController {
@@ -33,9 +36,8 @@ public class UserController {
 
     /**
      * createUser*/
-    @PostMapping(path = "/createUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createUser(@RequestBody User user) {
-        System.out.println("Controller is on");
         logger.debug("Begin createUser");
 
         userService.createNewUser(user);
@@ -66,7 +68,7 @@ public class UserController {
         return ResponseEntity.status(401).build();
     }
 
-	@PostMapping(path = "/editUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/edit", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity editUser(@RequestBody UserEdit userEdit) {
         logger.debug("Start editUser");
 
@@ -87,15 +89,28 @@ public class UserController {
         }
     }
 
-    @GetMapping(path = "/getUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUserByID(@RequestBody Long userID) {
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<User> getUserByID(@PathVariable Long id) {
+        System.out.println("Controller is on");
         logger.debug("Start getUserByID");
-        User user = userService.getUserByID(userID);
+        User user = userService.getUserByID(id);
+        System.out.println(user);
+
         if (user != null) {
             logger.debug("End getUserByID successfully");
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return ResponseEntity.ok().body(user);
         } else {
             logger.debug("End getUserByID user not found");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(path="/user/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username){
+        User user = this.userService.getUserByUsername(username);
+        if(user != null) {
+            return ResponseEntity.ok().body(user);
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
