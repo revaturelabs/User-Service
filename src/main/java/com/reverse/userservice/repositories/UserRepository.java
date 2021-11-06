@@ -4,6 +4,8 @@ import com.reverse.userservice.models.User;
 import lombok.Generated;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 @Generated
 /**
  * UserRepository extends JpaRepository, which means it comes with
@@ -16,5 +18,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * - Asher Rosenbaum
  */
 public interface UserRepository extends JpaRepository<User, Long> {
+
     User findByUsername(String username);
 }
