@@ -1,14 +1,11 @@
 package com.reverse.userservice.services;
 
-import com.reverse.userservice.models.BranchLocation;
 import com.reverse.userservice.models.Credentials;
-import com.reverse.userservice.models.Gender;
 import com.reverse.userservice.models.User;
 import com.reverse.userservice.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,8 +39,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void createNewUser(User newUser) {
-        this.userRepository.save(newUser);
+    public Long createNewUser(User user) {
+        User newUser = this.userRepository.save(user);
+        return newUser.getId();
     }
 
     @Override

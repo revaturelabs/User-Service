@@ -1,6 +1,6 @@
 package com.reverse.userservice.services;
 
-import com.reverse.userservice.exceptions.services.CredentialsInvalid;
+import com.reverse.userservice.exceptions.CredentialsInvalid;
 import com.reverse.userservice.models.Credentials;
 import com.reverse.userservice.models.ReverseJWT;
 import com.reverse.userservice.models.User;
