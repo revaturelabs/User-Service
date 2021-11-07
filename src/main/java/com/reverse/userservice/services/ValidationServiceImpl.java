@@ -1,5 +1,6 @@
 package com.reverse.userservice.services;
 
+import com.reverse.userservice.exceptions.services.CredentialsInvalid;
 import com.reverse.userservice.models.Credentials;
 import com.reverse.userservice.models.ReverseJWT;
 import com.reverse.userservice.models.User;
@@ -10,8 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
-@Component("ValidationService")
+
+@Component("ValidationServiceImpl")
 public class ValidationServiceImpl implements ValidationService{
 
     private UserRepository userRepo;
@@ -39,16 +40,30 @@ public class ValidationServiceImpl implements ValidationService{
             }
         }
 
-        throw new Exception("Invalid Credentials");
+        throw new CredentialsInvalid("Invalid Credentials!");
     }
 
     @Override
     public boolean validateJwt(ReverseJWT jwt) {
         Long userId = jwt.getUserID(secret);
 
-        if(userId != null) {
+        if(userId != null && userRepo.findById(userId).isPresent()) {
+
             return true;
         }
         return false;
     }
+
+    @Override
+    public boolean validateJwt(ReverseJWT jwt, long userID) {
+        Long jwtID = jwt.getUserID(secret);
+
+        System.out.println(userRepo.findById(userID).isPresent());
+
+        if(jwtID != null && jwtID.longValue() == userID && userRepo.findById(userID).isPresent()) {
+            return true;
+        }
+        return false;
+    }
+
 }

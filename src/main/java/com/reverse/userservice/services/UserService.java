@@ -4,6 +4,8 @@ import com.reverse.userservice.models.Credentials;
 import com.reverse.userservice.models.User;
 
 import java.util.List;
+import java.util.Optional;
+
 
 public interface UserService {
 
@@ -11,13 +13,11 @@ public interface UserService {
 
     User getUserByUsername(String username);
 
-    void registerNewUser(User user);
-
     void updateUser(User user);
 
-    public User getUserByID(Integer id);
+    public User getUserByID(Long id);
 
-    public void createNewUser(User newUser);
+    void createNewUser(User newUser);
 
     public Credentials getUserCredentials(Credentials credentials);
 }

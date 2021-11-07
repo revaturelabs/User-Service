@@ -2,9 +2,11 @@ package com.reverse.userservice.controllers;
 
 import com.reverse.userservice.models.Credentials;
 import com.reverse.userservice.models.ReverseJWT;
+import com.reverse.userservice.services.UserService;
 import com.reverse.userservice.services.ValidationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,12 +17,15 @@ public class AuthenticationControllerTest {
 
     private UserController testAuthController;
     private ValidationService mockValService;       // Will hold the mocked ValidationService.
+    private UserService mockUserService;
 
     @BeforeEach
     public void init() {
         mockValService = mock(ValidationService.class);     // Give mockValService a mocked ValidationService.
-        testAuthController = new UserController();          // Can use the mock like any other class
-        testAuthController.setValidationService(mockValService);
+        mockUserService = mock(UserService.class);
+        testAuthController = new UserController();
+        testAuthController.setValService(mockValService);       // Can use the mock like any other class
+        testAuthController.setUserService(mockUserService);     // Can use the mock like any other class
     }
 
     @Test
@@ -55,5 +60,25 @@ public class AuthenticationControllerTest {
         ResponseEntity testResponseEntity = testAuthController.checkLoginCredentials(mockCredentials);
 
         assertEquals(401, testResponseEntity.getStatusCodeValue(), "TestResponseEntity status not 401!");
+    }
+
+    @Test
+    public void validateJWTTestSuccess() {
+        ReverseJWT mockJWT = mock(ReverseJWT.class);
+        when(mockValService.validateJwt(mockJWT)).thenReturn(true);
+
+        ResponseEntity testResponseEntity = testAuthController.validateJwt(mockJWT);
+
+        assertEquals(HttpStatus.OK, testResponseEntity.getStatusCode(), "Success not returning OK!");
+    }
+
+    @Test
+    public void validateJWTTestFailure() {
+        ReverseJWT mockJWT = mock(ReverseJWT.class);
+        when(mockValService.validateJwt(mockJWT)).thenReturn(false);
+
+        ResponseEntity testResponseEntity = testAuthController.validateJwt(mockJWT);
+
+        assertEquals(401, testResponseEntity.getStatusCodeValue(), "Failure not returning 401!");
     }
 }
