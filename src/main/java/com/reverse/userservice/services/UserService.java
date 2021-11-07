@@ -4,6 +4,7 @@ import com.reverse.userservice.models.Credentials;
 import com.reverse.userservice.models.User;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface UserService {
@@ -20,8 +21,7 @@ public interface UserService {
      * @return The user with the correct username, null if does not exist.
      */
     User getUserByUsername(String username);
-
-
+  
     /**
      * Registers a new User.
      * @param user The new User to be registered.

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Component("UserServiceImpl")
 public class UserServiceImpl implements UserService{
@@ -24,17 +25,24 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getUserByID(Long id) {
-        return null;
+        System.out.println("User Service is On");
+        Optional<User> user = this.userRepository.findById(id);
+
+        if(user.isPresent()){
+            return user.get();
+        } else {
+            return null;
+        }
+
     }
 
     @Override
     public User getUserByUsername(String username) {
-        return null;
+        return this.userRepository.findByUsername(username);
     }
 
     @Override
     public void createNewUser(User newUser) {
-        System.out.println("User Service is on");
         this.userRepository.save(newUser);
     }
 
