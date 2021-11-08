@@ -1,10 +1,8 @@
 package com.reverse.userservice.services;
 
-import com.reverse.userservice.models.Credentials;
 import com.reverse.userservice.models.User;
 
 import java.util.List;
-import java.util.Optional;
 
 
 public interface UserService {
@@ -19,5 +17,4 @@ public interface UserService {
 
     Long createNewUser(User newUser);
 
-    public Credentials getUserCredentials(Credentials credentials);
 }

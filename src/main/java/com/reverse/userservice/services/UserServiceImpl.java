@@ -4,6 +4,7 @@ import com.reverse.userservice.models.Credentials;
 import com.reverse.userservice.models.User;
 import com.reverse.userservice.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -39,6 +40,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Long createNewUser(User user) {
+        String hashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+        user.setPassword(hashed);
         User newUser = this.userRepository.save(user);
         return newUser.getId();
     }
@@ -49,8 +52,4 @@ public class UserServiceImpl implements UserService{
         this.userRepository.save(user);
     }
 
-    @Override
-    public Credentials getUserCredentials(Credentials credentials) {
-        return null;
-    }
 }
