@@ -5,6 +5,7 @@ import com.reverse.userservice.models.ReverseJWT;
 import com.reverse.userservice.models.*;
 import com.reverse.userservice.services.UserService;
 import com.reverse.userservice.services.ValidationService;
+import org.dom4j.Branch;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -221,7 +222,7 @@ public class UserControllerTest {
 
     @Test
     public void updateUserFailure() {
-        long correctID = 42L;
+    long correctID = 42L;
         Instant testInstant = Instant.now();
 
         User mockInputUser = mock(User.class);
