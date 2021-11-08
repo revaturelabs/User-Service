@@ -22,7 +22,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getUserByID(Long id) {
-        System.out.println("User Service is On");
         Optional<User> user = this.userRepository.findById(id);
 
         if(user.isPresent()){
@@ -46,7 +45,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void updateUser(User user) {
-
+        System.out.println("User Service updating User.");
+        this.userRepository.save(user);
     }
 
     @Override
