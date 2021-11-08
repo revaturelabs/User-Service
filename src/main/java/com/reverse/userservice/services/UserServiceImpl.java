@@ -3,6 +3,7 @@ package com.reverse.userservice.services;
 import com.reverse.userservice.models.Credentials;
 import com.reverse.userservice.models.User;
 import com.reverse.userservice.repositories.UserRepository;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +14,12 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService{
 
     @Autowired
+    @Setter
     private UserRepository userRepository;
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        return userRepository.findAll();
     }
 
     @Override
@@ -47,10 +49,5 @@ public class UserServiceImpl implements UserService{
     public void updateUser(User user) {
         System.out.println("User Service updating User.");
         this.userRepository.save(user);
-    }
-
-    @Override
-    public Credentials getUserCredentials(Credentials credentials) {
-        return null;
     }
 }
