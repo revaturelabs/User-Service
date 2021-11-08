@@ -21,7 +21,7 @@ public class ImageLocation {
     private Long id;
 
     @Column(name = "bucket_name", nullable = false, length = 200)
-    private String url;
+    private String bucketName;
 
     @Override
     @Generated // This generated tag keeps these lines of code from being counting towards/against test coverage
@@ -29,12 +29,12 @@ public class ImageLocation {
         if (this == o) return true;
         if (!(o instanceof ImageLocation)) return false;
         ImageLocation that = (ImageLocation) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getUrl(), that.getUrl());
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getBucketName(), that.getBucketName());
     }
 
     @Override
     @Generated // This generated tag keeps these lines of code from being counting towards/against test coverage
     public int hashCode() {
-        return Objects.hash(getId(), getUrl());
+        return Objects.hash(getId(), getBucketName());
     }
 }
