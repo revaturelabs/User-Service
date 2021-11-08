@@ -18,7 +18,7 @@ public class ProfilePicture {
     private Long id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "image_location", nullable = false)
+    @JoinColumn(name = "bucket", nullable = false)
     private ImageLocation imageLocation;
 
     @Column(name = "image_name", nullable = false, length = 50)
