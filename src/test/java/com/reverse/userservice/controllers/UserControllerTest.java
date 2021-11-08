@@ -7,13 +7,39 @@ import com.reverse.userservice.services.UserService;
 import com.reverse.userservice.services.ValidationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.Optional;
+
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders;
+
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ContextConfiguration(classes = {UserController.class})
+@ExtendWith(SpringExtension.class)
 public class UserControllerTest {
+
+    @Autowired
+    private UserController userController;
+
+    @MockBean
+    private UserService userService;
+
+    @MockBean
+    private ValidationService validationService;
 
     private UserController testUserController;
     private ValidationService mockValidationService;
@@ -39,6 +65,42 @@ public class UserControllerTest {
     }
 
     @Test
+    void testGetUserByID() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/{id}", 123L);
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.userController)
+                .build()
+                .perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    void testGetUserByID2() throws Exception {
+        SecurityMockMvcRequestBuilders.FormLoginRequestBuilder requestBuilder = SecurityMockMvcRequestBuilders.formLogin();
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.userController)
+                .build()
+                .perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    void testGetUserByUsername() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/user/{username}", "janedoe");
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.userController)
+                .build()
+                .perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    void testGetUserByUsername2() throws Exception {
+        SecurityMockMvcRequestBuilders.FormLoginRequestBuilder requestBuilder = SecurityMockMvcRequestBuilders.formLogin();
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.userController)
+                .build()
+                .perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
     public void updateUserTestSuccess() {
         User mockUser = mock(User.class);
         User mockServiceUser = mock(User.class);
@@ -60,7 +122,6 @@ public class UserControllerTest {
     @Test
     public void updateUserTestFailureJWT() {
         User mockUser = mock(User.class);
-        User mockServiceUser = mock(User.class);
         ReverseJWT mockReverseJWT = mock(ReverseJWT.class);
         UserEdit mockUserEdit = mock(UserEdit.class);
 

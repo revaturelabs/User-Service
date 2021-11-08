@@ -6,10 +6,8 @@ import com.reverse.userservice.models.ReverseJWT;
 import com.reverse.userservice.models.User;
 import com.reverse.userservice.services.UserService;
 import com.reverse.userservice.services.ValidationService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import lombok.Setter;
@@ -22,11 +20,9 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "users")
+@Slf4j
 public class UserController {
 
-    private Logger logger = LoggerFactory.getLogger(UserController.class);
-
-    //@Qualifier("validationServiceImpl")
     @Autowired
     @Setter
     private ValidationService valService;
@@ -35,16 +31,10 @@ public class UserController {
     @Setter
     private UserService userService;
 
-    /**
-     * createUser*/
-    @PostMapping(path = "/createUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createUser(@RequestBody User user) {
-        System.out.println("Controller is on");
-        logger.debug("Begin createUser");
-
-        userService.createNewUser(user);
-
-        logger.debug("End createUser successfully");
+        Long id = userService.createNewUser(user);
+        log.debug("User with id "+id+" successfully created");
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
@@ -70,36 +60,46 @@ public class UserController {
         return ResponseEntity.status(401).build();
     }
 
-	@PostMapping(path = "/editUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/edit", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity editUser(@RequestBody UserEdit userEdit) {
-        logger.debug("Start editUser");
+        log.debug("Start editUser");
 
         ReverseJWT reverseJWT = userEdit.getReverseJWT();
         User user = userEdit.getUser();
 
         if (!(valService.validateJwt(reverseJWT, user.getId()))) {
-            logger.warn("Bad JWT in editUser");
+            log.warn("Bad JWT sent to /user/edit");
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
         if (userService.getUserByID(user.getId()) != null) {
             userService.updateUser(user);
-            logger.debug("End editUser successfully");
+            log.debug("User with id "+user.getId()+" successfully edited");
             return new ResponseEntity(HttpStatus.CREATED);
         } else {
-            logger.warn("User not found in editUser");
+            log.warn("User sent to /user/edit not found in db");
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
     }
 
-    @GetMapping(path = "/getUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUserByID(@RequestBody Long userID) {
-        logger.debug("Start getUserByID");
-        User user = userService.getUserByID(userID);
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<User> getUserByID(@PathVariable Long id) {
+        User user = userService.getUserByID(id);
+
         if (user != null) {
-            logger.debug("End getUserByID successfully");
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            log.debug("User sent to /user/{id} with id "+user.getId()+" located successfully");
+            return ResponseEntity.ok().body(user);
         } else {
-            logger.debug("End getUserByID user not found");
+            log.debug("User sent to /user/{id} with id "+id+" not found");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(path="/user/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username){
+        User user = this.userService.getUserByUsername(username);
+        if(user != null) {
+            return ResponseEntity.ok().body(user);
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
