@@ -116,12 +116,11 @@ public class UserControllerTest {
     }
 
     @Test
-    void updateUser() {
+    public void updateUser() {
         User mockUser = mock(User.class);
-
         ResponseEntity testResponseEntity = testUserController.updateUser(mockUser);
-
-        verify(mockUserService).updateUser(mockUser);
-        assertEquals(HttpStatus.OK, testResponseEntity.getStatusCode(), "Incorrect HttpStatus returned!");
+        when(mockUserService.getUserByID(42L)).thenReturn(mockUser);
+        verify(mockUserService, never()).updateUser(mockUser);
+        assertEquals(HttpStatus.NOT_FOUND, testResponseEntity.getStatusCode(), "Incorrect HttpStatus returned!");
     }
 }
