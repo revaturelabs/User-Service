@@ -1,88 +1,43 @@
 package com.reverse.userservice.controllers;
 
-import com.reverse.userservice.models.BranchLocation;
-import com.reverse.userservice.models.Gender;
-import com.reverse.userservice.repositories.BranchLocationRepository;
-import com.reverse.userservice.repositories.GenderRepository;
 import com.reverse.userservice.services.InHouseVariablesService;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
-
+@ContextConfiguration(classes = {GetInHouseVariablesController.class})
+@ExtendWith(SpringExtension.class)
 class GetInHouseVariablesControllerTest {
+    @Autowired
+    private GetInHouseVariablesController getInHouseVariablesController;
 
-    static Gender gender1;
-    static Gender gender2;
-    static List<Gender> genderList;
-    static GenderRepository mockGenderRepository;
+    @MockBean
+    private InHouseVariablesService inHouseVariablesService;
 
-    static BranchLocation location1;
-    static BranchLocation location2;
-    static List<BranchLocation> locationList;
-    static BranchLocationRepository mockLocationRepository;
-
-    static InHouseVariablesService service;
-    static GetInHouseVariablesController controller;
-
-    @BeforeAll
-    static void setup(){
-
-        // Create mock genders
-        gender1 = new Gender();
-        gender2 = new Gender();
-
-        // Create mock gender list
-        genderList = new ArrayList<>();
-        genderList.add(gender1);
-        genderList.add(gender2);
-
-        // Set up mockito to return the mock list when the "find all" method is called
-        mockGenderRepository = mock(GenderRepository.class);
-        when(mockGenderRepository.findAll()).thenReturn(genderList);
-
-        // Create mock locations
-        location1 = new BranchLocation();
-        location2 = new BranchLocation();
-
-        // Add mock locations to list
-        locationList = new ArrayList<>();
-        locationList.add(location1);
-        locationList.add(location2);
-
-        // Set up mockito to return the mock list when the "find all" method is called
-        mockLocationRepository = mock(BranchLocationRepository.class);
-        when(mockLocationRepository.findAll()).thenReturn(locationList);
-
-        // Create service
-        service = new InHouseVariablesService();
-
-        // Inject mock repositories
-        service.setLocationRepository(mockLocationRepository);
-        service.setGenderRepository(mockGenderRepository);
-
-        // Create controller
-        controller = new GetInHouseVariablesController();
-
-        // Inject service into the controller
-        controller.setService(service);
+    @Test
+    void testGetAllGenders() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/genders");
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.getInHouseVariablesController)
+                .build()
+                .perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
     @Test
-    void getAllGenders() {
-        assertNull(controller.getAllGenders());
-
-        //TODO - Write actual tests for the controller here
-    }
-
-    @Test
-    void getAllLocations() {
-        assertNull(controller.getAllLocations());
-
-        //TODO - Write actual tests for the controller here
+    void testGetAllLocations() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/locations");
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.getInHouseVariablesController)
+                .build()
+                .perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 }
+
