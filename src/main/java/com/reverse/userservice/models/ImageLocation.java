@@ -20,7 +20,7 @@ public class ImageLocation {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "url", nullable = false, length = 200)
+    @Column(name = "bucket_name", nullable = false, length = 200)
     private String url;
 
     @Override
