@@ -22,8 +22,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getUserByID(Long id) {
-        return this.userRepository.getById(id);
-        System.out.println("User Service is On");
         Optional<User> user = this.userRepository.findById(id);
 
         if(user.isPresent()){
