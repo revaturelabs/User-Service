@@ -4,8 +4,6 @@ import com.reverse.userservice.models.User;
 import lombok.Generated;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
 @Generated
 /**
  * UserRepository extends JpaRepository, which means it comes with
@@ -18,6 +16,10 @@ import java.util.List;
  * - Asher Rosenbaum
  */
 public interface UserRepository extends JpaRepository<User, Long> {
-
+    /**
+     *
+     * @return complementary method to findById
+     * all other methods employed by the UserServiceImpl are from the JpaRepository or its parent classes/associated interfaces
+     */
     User findByUsername(String username);
 }
