@@ -109,7 +109,7 @@ public class UserController {
      * */
     @PatchMapping(path = "/updateUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateUser(@RequestBody User user) {
-        logger.debug("Begin updateUser");
+        log.debug("Begin updateUser");
         List<String> availableFields = Arrays.asList("username","email","firstName","lastName","password","dateOfBirth","gender","branch","profilePicture");
         User userData = userService.getUserByID(user.getId());
 
@@ -129,7 +129,7 @@ public class UserController {
                 }
             }
             userService.updateUser(updUser);
-            logger.debug("End updateUser Successful!");
+            log.debug("End updateUser Successful!");
             return new ResponseEntity(HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
