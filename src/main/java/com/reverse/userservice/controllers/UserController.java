@@ -65,7 +65,7 @@ public class UserController {
         User user = userEdit.getUser();
 
         if (!(valService.validateJwt(reverseJWT, user.getId()))) {
-            log.warn("Bad JWT sent to /user/edit");
+            log.warn("Bad JWT sent to /users/edit");
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
         if (userService.getUserByID(user.getId()) != null) {
@@ -73,7 +73,7 @@ public class UserController {
             log.debug("User with id "+user.getId()+" successfully edited");
             return new ResponseEntity(HttpStatus.CREATED);
         } else {
-            log.warn("User sent to /user/edit not found in db");
+            log.warn("User sent to /users/edit not found in db");
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
     }
@@ -83,10 +83,10 @@ public class UserController {
         User user = userService.getUserByID(id);
 
         if (user != null) {
-            log.debug("User sent to /user/{id} with id "+user.getId()+" located successfully");
+            log.debug("User sent to /users/{id} with id "+user.getId()+" located successfully");
             return ResponseEntity.ok().body(user);
         } else {
-            log.debug("User sent to /user/{id} with id "+id+" not found");
+            log.debug("User sent to /users/{id} with id "+id+" not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -95,8 +95,10 @@ public class UserController {
     public ResponseEntity<User> getUserByUsername(@PathVariable String username){
         User user = this.userService.getUserByUsername(username);
         if(user != null) {
+            log.debug("User sent to /users/user/{username} with username "+user.getUsername()+" located successfully");
             return ResponseEntity.ok().body(user);
         } else {
+            log.debug("User sent to /users/user/{username} with username "+username+" not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

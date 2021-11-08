@@ -2,22 +2,20 @@ package com.reverse.userservice.controllers;
 
 import com.reverse.userservice.models.BranchLocation;
 import com.reverse.userservice.models.Gender;
-import com.reverse.userservice.repositories.BranchLocationRepository;
-import com.reverse.userservice.repositories.GenderRepository;
 import com.reverse.userservice.services.InHouseVariablesService;
 import lombok.Setter;
-import org.dom4j.Branch;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.xml.ws.Response;
 import java.util.List;
 
 @RequestMapping(path = "lists")
 @RestController
+@Slf4j
 public class GetInHouseVariablesController {
 
     @Autowired
@@ -26,12 +24,14 @@ public class GetInHouseVariablesController {
 
     @GetMapping(value = "/genders")
     public ResponseEntity<List<Gender>> getAllGenders(){
+        log.debug("Recovering all gender values");
         List<Gender> genderList = this.service.getAllGenders();
         return ResponseEntity.ok().body(genderList);
     }
 
     @GetMapping(value = "/locations")
     public ResponseEntity<List<BranchLocation>> getAllLocations(){
+        log.debug("Recovering all branch locations");
         List<BranchLocation> locations = this.service.getAllLocations();
         return ResponseEntity.ok().body(locations);
     }
