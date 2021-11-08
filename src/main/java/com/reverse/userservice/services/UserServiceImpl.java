@@ -45,7 +45,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void updateUser(User user) {
-
+        System.out.println("User Service updating User.");
+        this.userRepository.save(user);
     }
 
     @Override
