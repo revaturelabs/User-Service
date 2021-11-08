@@ -2,7 +2,7 @@ package com.reverse.userservice.controllers;
 
 import com.reverse.userservice.controllers.postobjects.UserEdit;
 import com.reverse.userservice.models.ReverseJWT;
-import com.reverse.userservice.models.User;
+import com.reverse.userservice.models.*;
 import com.reverse.userservice.services.UserService;
 import com.reverse.userservice.services.ValidationService;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +13,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders;
@@ -177,11 +180,82 @@ public class UserControllerTest {
     }
 
     @Test
-    public void updateUser() {
-        User mockUser = mock(User.class);
-        ResponseEntity testResponseEntity = testUserController.updateUser(mockUser);
-        when(mockUserService.getUserByID(42L)).thenReturn(mockUser);
-        verify(mockUserService, never()).updateUser(mockUser);
+    public void updateUserSuccess() {
+        long correctID = 42L;
+        Instant testInstant = Instant.now();
+
+        User mockInputUser = mock(User.class);
+        User mockStoredUser = mock(User.class);
+        Gender mockGender = mock(Gender.class);
+        BranchLocation mockBranchLocation = mock(BranchLocation.class);
+        ProfilePicture mockProfilePicture = mock(ProfilePicture.class);
+        when(mockInputUser.getId()).thenReturn(correctID);
+        when(mockInputUser.getUsername()).thenReturn("username");
+        when(mockInputUser.getEmail()).thenReturn("email");
+        when(mockInputUser.getFirstName()).thenReturn("firstname");
+        when(mockInputUser.getLastName()).thenReturn("lastname");
+        when(mockInputUser.getPassword()).thenReturn("password");
+        when(mockInputUser.getDateOfBirth()).thenReturn(testInstant);
+        when(mockInputUser.getGender()).thenReturn(mockGender);
+        when(mockInputUser.getBranch()).thenReturn(mockBranchLocation);
+        when(mockInputUser.getProfilePicture()).thenReturn(mockProfilePicture);
+
+        when(mockUserService.getUserByID(correctID)).thenReturn(mockStoredUser);
+
+        ResponseEntity testResponseEntity = testUserController.updateUser(mockInputUser);
+
+        verify(mockStoredUser).setUsername("username");
+        verify(mockStoredUser).setEmail("email");
+        verify(mockStoredUser).setFirstName("firstname");
+        verify(mockStoredUser).setLastName("lastname");
+        verify(mockStoredUser).setPassword("password");
+        verify(mockStoredUser).setDateOfBirth(testInstant);
+        verify(mockStoredUser).setGender(mockGender);
+        verify(mockStoredUser).setBranch(mockBranchLocation);
+        verify(mockStoredUser).setProfilePicture(mockProfilePicture);
+
+        verify(mockUserService).updateUser(mockStoredUser);
+
+        assertEquals(HttpStatus.OK, testResponseEntity.getStatusCode(), "Incorrect HttpStatus returned!");
+    }
+
+    @Test
+    public void updateUserFailure() {
+        long correctID = 42L;
+        Instant testInstant = Instant.now();
+
+        User mockInputUser = mock(User.class);
+        User mockStoredUser = mock(User.class);
+        Gender mockGender = mock(Gender.class);
+        BranchLocation mockBranchLocation = mock(BranchLocation.class);
+        ProfilePicture mockProfilePicture = mock(ProfilePicture.class);
+        when(mockInputUser.getId()).thenReturn(correctID);
+        when(mockInputUser.getUsername()).thenReturn("username");
+        when(mockInputUser.getEmail()).thenReturn("email");
+        when(mockInputUser.getFirstName()).thenReturn("firstname");
+        when(mockInputUser.getLastName()).thenReturn("lastname");
+        when(mockInputUser.getPassword()).thenReturn("password");
+        when(mockInputUser.getDateOfBirth()).thenReturn(testInstant);
+        when(mockInputUser.getGender()).thenReturn(mockGender);
+        when(mockInputUser.getBranch()).thenReturn(mockBranchLocation);
+        when(mockInputUser.getProfilePicture()).thenReturn(mockProfilePicture);
+
+        when(mockUserService.getUserByID(correctID)).thenReturn(null);
+
+        ResponseEntity testResponseEntity = testUserController.updateUser(mockInputUser);
+
+        verify(mockStoredUser, never()).setUsername("username");
+        verify(mockStoredUser, never()).setEmail("email");
+        verify(mockStoredUser, never()).setFirstName("firstname");
+        verify(mockStoredUser, never()).setLastName("lastname");
+        verify(mockStoredUser, never()).setPassword("password");
+        verify(mockStoredUser, never()).setDateOfBirth(testInstant);
+        verify(mockStoredUser, never()).setGender(mockGender);
+        verify(mockStoredUser, never()).setBranch(mockBranchLocation);
+        verify(mockStoredUser, never()).setProfilePicture(mockProfilePicture);
+
+        verify(mockUserService, never()).updateUser(mockStoredUser);
+
         assertEquals(HttpStatus.NOT_FOUND, testResponseEntity.getStatusCode(), "Incorrect HttpStatus returned!");
     }
 }

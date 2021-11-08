@@ -124,8 +124,8 @@ public class UserController {
                     case "password": if (user.getPassword() != null) updUser.setPassword(user.getPassword()); break;
                     case "dateOfBirth": if (user.getDateOfBirth() != null) updUser.setDateOfBirth(user.getDateOfBirth()); break;
                     case "gender": if (user.getGender() != null) updUser.setGender(user.getGender()); break;
-                    case "branch": if (user.getBranch() != null) user.setBranch(user.getBranch()); break;
-                    case "profilePicture": if (user.getProfilePicture() != null) user.setProfilePicture(user.getProfilePicture()); break;
+                    case "branch": if (user.getBranch() != null) updUser.setBranch(user.getBranch()); break;
+                    case "profilePicture": if (user.getProfilePicture() != null) updUser.setProfilePicture(user.getProfilePicture()); break;
                 }
             }
             userService.updateUser(updUser);
