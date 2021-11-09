@@ -257,4 +257,31 @@ public class UserControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, testResponseEntity.getStatusCode(), "Incorrect HttpStatus returned!");
     }
 
+    @Test
+    void getUserByUsernameSuccess() {
+        String testUsername = "username";
+
+        User mockUser = mock(User.class);
+
+        when(mockUserService.getUserByUsername(testUsername)).thenReturn(mockUser);
+
+        ResponseEntity<User> testResponseEntity = testUserController.getUserByUsername(testUsername);
+
+        assertEquals(HttpStatus.OK, testResponseEntity.getStatusCode(), "Incorrect HttpStatus returned!");
+        assertSame(mockUser, testResponseEntity.getBody(), "User not returned!");
+    }
+
+    @Test
+    void getUserByUsernameFailure() {
+        String testUsername = "username";
+
+        User mockUser = mock(User.class);
+
+        when(mockUserService.getUserByUsername(testUsername)).thenReturn(null);
+
+        ResponseEntity<User> testResponseEntity = testUserController.getUserByUsername(testUsername);
+
+        assertEquals(HttpStatus.NOT_FOUND, testResponseEntity.getStatusCode(), "Incorrect HttpStatus returned!");
+    }
+
 }
