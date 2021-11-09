@@ -18,6 +18,4 @@ public interface UserService {
     public User getUserByID(Long id);
 
     Long createNewUser(User newUser);
-
-    public Credentials getUserCredentials(Credentials credentials);
 }
