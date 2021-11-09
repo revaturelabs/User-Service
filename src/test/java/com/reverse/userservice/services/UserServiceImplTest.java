@@ -1,264 +1,90 @@
 package com.reverse.userservice.services;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import com.reverse.userservice.models.BranchLocation;
-import com.reverse.userservice.models.Gender;
-import com.reverse.userservice.models.ImageLocation;
-import com.reverse.userservice.models.ProfilePicture;
 import com.reverse.userservice.models.User;
 import com.reverse.userservice.repositories.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.mockito.Mockito.*;
 
-@ContextConfiguration(classes = {UserServiceImpl.class})
-@ExtendWith(SpringExtension.class)
-class UserServiceImplTest {
-    @MockBean
-    private UserRepository userRepository;
+public class UserServiceImplTest {
 
-    @Autowired
-    private UserServiceImpl userServiceImpl;
+    private UserServiceImpl testUserServiceImpl;
 
-    @Test
-    void testGetUserByID() {
-        BranchLocation branchLocation = new BranchLocation();
-        branchLocation.setCountry("GB");
-        branchLocation.setId(123L);
-        branchLocation.setCity("Oxford");
-        branchLocation.setBranchName("janedoe/featurebranch");
-        branchLocation.setState("MD");
+    private UserRepository mockUserRepository;
 
-        Gender gender = new Gender();
-        gender.setId(123L);
-        gender.setGender("Gender");
-
-        ImageLocation imageLocation = new ImageLocation();
-        imageLocation.setId(123L);
-        imageLocation.setUrl("https://example.org/example");
-
-        ProfilePicture profilePicture = new ProfilePicture();
-        profilePicture.setId(123L);
-        profilePicture.setImageLocation(imageLocation);
-        profilePicture.setImageName("Image Name");
-
-        User user = new User();
-        user.setLastName("Doe");
-        user.setEmail("jane.doe@example.org");
-        user.setPassword("iloveyou");
-        user.setUsername("janedoe");
-        user.setBranch(branchLocation);
-        user.setGender(gender);
-        user.setId(123L);
-        user.setProfilePicture(profilePicture);
-        user.setDateOfBirth(null);
-        user.setFirstName("Jane");
-        Optional<User> ofResult = Optional.<User>of(user);
-        when(this.userRepository.findById((Long) any())).thenReturn(ofResult);
-        assertSame(user, this.userServiceImpl.getUserByID(123L));
-        verify(this.userRepository).findById((Long) any());
+    @BeforeEach
+    public void init() {
+        mockUserRepository = mock(UserRepository.class);
+        testUserServiceImpl = new UserServiceImpl();
+        testUserServiceImpl.setUserRepository(mockUserRepository);
     }
 
     @Test
-    void testGetUserByID2() {
-        when(this.userRepository.findById((Long) any())).thenReturn(Optional.<User>empty());
-        assertNull(this.userServiceImpl.getUserByID(123L));
-        verify(this.userRepository).findById((Long) any());
+    public void getAllUsersTest() {
+        List<User> mockList = mock(List.class);
+        when(mockUserRepository.findAll()).thenReturn(mockList);
+
+        List testList = testUserServiceImpl.getAllUsers();
+
+        assertSame(mockList, testList, "mockList not returned!");
     }
 
     @Test
-    void testGetUserByUsername() {
-        BranchLocation branchLocation = new BranchLocation();
-        branchLocation.setCountry("GB");
-        branchLocation.setId(123L);
-        branchLocation.setCity("Oxford");
-        branchLocation.setBranchName("janedoe/featurebranch");
-        branchLocation.setState("MD");
+    public void getUserByIdSuccess() {
+        long correctID = 42L;
 
-        Gender gender = new Gender();
-        gender.setId(123L);
-        gender.setGender("Gender");
+        User mockUser = mock(User.class);
 
-        ImageLocation imageLocation = new ImageLocation();
-        imageLocation.setId(123L);
-        imageLocation.setUrl("https://example.org/example");
+        Optional<User> testOptional = Optional.of(mockUser);
 
-        ProfilePicture profilePicture = new ProfilePicture();
-        profilePicture.setId(123L);
-        profilePicture.setImageLocation(imageLocation);
-        profilePicture.setImageName("Image Name");
+        when(mockUserRepository.findById(correctID)).thenReturn(testOptional);
 
-        User user = new User();
-        user.setLastName("Doe");
-        user.setEmail("jane.doe@example.org");
-        user.setPassword("iloveyou");
-        user.setUsername("janedoe");
-        user.setBranch(branchLocation);
-        user.setGender(gender);
-        user.setId(123L);
-        user.setProfilePicture(profilePicture);
-        user.setDateOfBirth(null);
-        user.setFirstName("Jane");
-        when(this.userRepository.findByUsername((String) any())).thenReturn(user);
-        assertSame(user, this.userServiceImpl.getUserByUsername("janedoe"));
-        verify(this.userRepository).findByUsername((String) any());
+        User testUser = testUserServiceImpl.getUserByID(correctID);
+
+        assertSame(mockUser, testUser, "mockUser not returned!");
     }
 
     @Test
-    void testCreateNewUser() {
-        BranchLocation branchLocation = new BranchLocation();
-        branchLocation.setCountry("GB");
-        branchLocation.setId(123L);
-        branchLocation.setCity("Oxford");
-        branchLocation.setBranchName("janedoe/featurebranch");
-        branchLocation.setState("MD");
+    public void getUserByIdFailure() {
+        long correctID = 42L;
 
-        Gender gender = new Gender();
-        gender.setId(123L);
-        gender.setGender("Gender");
+        User mockUser = null;
+        Optional<User> testOptional = Optional.ofNullable(mockUser);
 
-        ImageLocation imageLocation = new ImageLocation();
-        imageLocation.setId(123L);
-        imageLocation.setUrl("https://example.org/example");
+        when(mockUserRepository.findById(correctID)).thenReturn(testOptional);
 
-        ProfilePicture profilePicture = new ProfilePicture();
-        profilePicture.setId(123L);
-        profilePicture.setImageLocation(imageLocation);
-        profilePicture.setImageName("Image Name");
+        User testUser = testUserServiceImpl.getUserByID(correctID);
 
-        User user = new User();
-        user.setLastName("Doe");
-        user.setEmail("jane.doe@example.org");
-        user.setPassword("iloveyou");
-        user.setUsername("janedoe");
-        user.setBranch(branchLocation);
-        user.setGender(gender);
-        user.setId(123L);
-        user.setProfilePicture(profilePicture);
-        user.setDateOfBirth(null);
-        user.setFirstName("Jane");
-        when(this.userRepository.save((User) any())).thenReturn(user);
-
-        BranchLocation branchLocation1 = new BranchLocation();
-        branchLocation1.setCountry("GB");
-        branchLocation1.setId(123L);
-        branchLocation1.setCity("Oxford");
-        branchLocation1.setBranchName("janedoe/featurebranch");
-        branchLocation1.setState("MD");
-
-        Gender gender1 = new Gender();
-        gender1.setId(123L);
-        gender1.setGender("Gender");
-
-        ImageLocation imageLocation1 = new ImageLocation();
-        imageLocation1.setId(123L);
-        imageLocation1.setUrl("https://example.org/example");
-
-        ProfilePicture profilePicture1 = new ProfilePicture();
-        profilePicture1.setId(123L);
-        profilePicture1.setImageLocation(imageLocation1);
-        profilePicture1.setImageName("Image Name");
-
-        User user1 = new User();
-        user1.setLastName("Doe");
-        user1.setEmail("jane.doe@example.org");
-        user1.setPassword("iloveyou");
-        user1.setUsername("janedoe");
-        user1.setBranch(branchLocation1);
-        user1.setGender(gender1);
-        user1.setId(123L);
-        user1.setProfilePicture(profilePicture1);
-        user1.setDateOfBirth(null);
-        user1.setFirstName("Jane");
-        assertEquals(123L, this.userServiceImpl.createNewUser(user1).longValue());
-        verify(this.userRepository).save((User) any());
+        assertNull(testUser, "testUser not null!");
     }
 
     @Test
-    void testUpdateUser() {
-        BranchLocation branchLocation = new BranchLocation();
-        branchLocation.setCountry("GB");
-        branchLocation.setId(123L);
-        branchLocation.setCity("Oxford");
-        branchLocation.setBranchName("janedoe/featurebranch");
-        branchLocation.setState("MD");
+    public void getUserByUsernameTest() {
+        String username = "username";
 
-        Gender gender = new Gender();
-        gender.setId(123L);
-        gender.setGender("Gender");
+        User mockUser = mock(User.class);
 
-        ImageLocation imageLocation = new ImageLocation();
-        imageLocation.setId(123L);
-        imageLocation.setUrl("https://example.org/example");
+        when(mockUserRepository.findByUsername(username)).thenReturn(mockUser);
 
-        ProfilePicture profilePicture = new ProfilePicture();
-        profilePicture.setId(123L);
-        profilePicture.setImageLocation(imageLocation);
-        profilePicture.setImageName("Image Name");
+        User testUser = testUserServiceImpl.getUserByUsername(username);
 
-        User user = new User();
-        user.setLastName("Doe");
-        user.setEmail("jane.doe@example.org");
-        user.setPassword("iloveyou");
-        user.setUsername("janedoe");
-        user.setBranch(branchLocation);
-        user.setGender(gender);
-        user.setId(123L);
-        user.setProfilePicture(profilePicture);
-        user.setDateOfBirth(null);
-        user.setFirstName("Jane");
-        when(this.userRepository.save((User) any())).thenReturn(user);
-
-        BranchLocation branchLocation1 = new BranchLocation();
-        branchLocation1.setCountry("GB");
-        branchLocation1.setId(123L);
-        branchLocation1.setCity("Oxford");
-        branchLocation1.setBranchName("janedoe/featurebranch");
-        branchLocation1.setState("MD");
-
-        Gender gender1 = new Gender();
-        gender1.setId(123L);
-        gender1.setGender("Gender");
-
-        ImageLocation imageLocation1 = new ImageLocation();
-        imageLocation1.setId(123L);
-        imageLocation1.setUrl("https://example.org/example");
-
-        ProfilePicture profilePicture1 = new ProfilePicture();
-        profilePicture1.setId(123L);
-        profilePicture1.setImageLocation(imageLocation1);
-        profilePicture1.setImageName("Image Name");
-
-        User user1 = new User();
-        user1.setLastName("Doe");
-        user1.setEmail("jane.doe@example.org");
-        user1.setPassword("iloveyou");
-        user1.setUsername("janedoe");
-        user1.setBranch(branchLocation1);
-        user1.setGender(gender1);
-        user1.setId(123L);
-        user1.setProfilePicture(profilePicture1);
-        user1.setDateOfBirth(null);
-        user1.setFirstName("Jane");
-        this.userServiceImpl.updateUser(user1);
-        verify(this.userRepository).save((User) any());
+        assertSame(mockUser, testUser, "mockUser not returned!");
     }
 
+    // Skipping createNewUser due to work being done on it. TODO - Add test
+
     @Test
-    void testConstructor() {
-        assertNull((new UserServiceImpl()).getAllUsers());
+    public void updateUser() {
+        User mockUser = mock(User.class);
+
+        testUserServiceImpl.updateUser(mockUser);
+
+        verify(mockUserRepository).save(mockUser);
     }
 }
-
