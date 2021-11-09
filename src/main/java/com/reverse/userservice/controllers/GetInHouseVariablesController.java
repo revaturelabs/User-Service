@@ -26,6 +26,7 @@ public class GetInHouseVariablesController {
     public ResponseEntity<List<Gender>> getAllGenders(){
         log.debug("Recovering all gender values");
         List<Gender> genderList = this.service.getAllGenders();
+        log.debug("Returning all gender values");
         return ResponseEntity.ok().body(genderList);
     }
 
@@ -33,6 +34,7 @@ public class GetInHouseVariablesController {
     public ResponseEntity<List<BranchLocation>> getAllLocations(){
         log.debug("Recovering all branch locations");
         List<BranchLocation> locations = this.service.getAllLocations();
+        log.debug("Returning all branch locations");
         return ResponseEntity.ok().body(locations);
     }
 
