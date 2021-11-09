@@ -33,6 +33,7 @@ public class UserController {
 
     @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createUser(@RequestBody User user) {
+        log.debug("Creating new user");
         Long id = userService.createNewUser(user);
         log.debug("User with id "+id+" successfully created");
         return new ResponseEntity(HttpStatus.CREATED);
@@ -40,23 +41,26 @@ public class UserController {
 
     @PostMapping(value = "/login")
     public ResponseEntity<?> checkLoginCredentials(@RequestBody Credentials loginRequest) {
-
+        log.debug("Login attempt from "+loginRequest.getUsername());
         try {
             ReverseJWT jwt = this.valService.validateCredentials(loginRequest);
+            log.debug("Login success from "+loginRequest.getUsername());
             return ResponseEntity.ok().body(jwt);
         } catch (Exception e) {
+            log.warn("Failed login for"+loginRequest.getUsername());
             return ResponseEntity.status(401).build();
         }
     }
 
     @PostMapping(value = "/validate")
     public ResponseEntity validateJwt(@RequestBody ReverseJWT jwt) {
-
+        log.debug("Validating JWT");
         boolean status = this.valService.validateJwt(jwt);
-
         if(status) {
+            log.debug("Validation successful");
             return ResponseEntity.ok().build();
         }
+        log.warn("Validation failed");
         return ResponseEntity.status(401).build();
     }
 
@@ -83,8 +87,8 @@ public class UserController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<User> getUserByID(@PathVariable Long id) {
+        log.debug("getUserByID called");
         User user = userService.getUserByID(id);
-
         if (user != null) {
             log.debug("User sent to /users/{id} with id "+user.getId()+" located successfully");
             return ResponseEntity.ok().body(user);
@@ -96,6 +100,7 @@ public class UserController {
 
     @GetMapping(path="/user/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username){
+        log.debug("getUserByUsername called");
         User user = this.userService.getUserByUsername(username);
         if(user != null) {
             log.debug("User sent to /users/user/{username} with username "+user.getUsername()+" located successfully");
@@ -118,6 +123,7 @@ public class UserController {
         if (userData != null) {
             User updUser = userData;
             for (String field : availableFields) {
+                log.trace("Current field = "+field);
                 switch (field){
                     case "username": if (user.getUsername() != null) updUser.setUsername(user.getUsername()); break;
                     case "email": if (user.getEmail() != null) updUser.setEmail(user.getEmail()); break;
@@ -131,9 +137,10 @@ public class UserController {
                 }
             }
             userService.updateUser(updUser);
-            log.debug("End updateUser Successful!");
+            log.debug("Successfully updated user id = "+user.getId()+" username = "+user.getUsername());
             return new ResponseEntity(HttpStatus.OK);
         } else {
+            log.warn("Did not find updatedUser id = "+user.getId()+" username = "+user.getUsername());
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
