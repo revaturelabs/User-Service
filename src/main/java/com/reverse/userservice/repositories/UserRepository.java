@@ -24,7 +24,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * all other methods employed by the UserServiceImpl are from the JpaRepository or its parent classes/associated interfaces
      */
     User findByUsername(String username);
-
-    @Override
-    List<User> findAll();
+    
 }
