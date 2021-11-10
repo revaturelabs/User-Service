@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ public class GetInHouseVariablesController {
     @Setter
     private InHouseVariablesService service;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = "/genders")
     public ResponseEntity<List<Gender>> getAllGenders(){
         log.debug("Recovering all gender values");
@@ -30,6 +32,7 @@ public class GetInHouseVariablesController {
         return ResponseEntity.ok().body(genderList);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = "/locations")
     public ResponseEntity<List<BranchLocation>> getAllLocations(){
         log.debug("Recovering all branch locations");
