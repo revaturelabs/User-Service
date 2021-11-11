@@ -21,6 +21,9 @@ import java.util.UUID;
 
 @Slf4j
 @NoArgsConstructor
+/**
+ * Holds and handles a JWT token.
+ */
 public class ReverseJWT {
 
     @Getter
