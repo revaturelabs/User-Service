@@ -45,4 +45,4 @@
 
 # Getting Started
 
-    -Review the STARTUP.md file
+    -Review the SETUP.md file
