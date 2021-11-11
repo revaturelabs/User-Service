@@ -37,4 +37,3 @@ RUNNING THE PROJECT
  
     Run the User Service Application 
     Browse to the swagger-ui dashboard at http://localhost:8081/swagger-ui.html
- 
