@@ -3,9 +3,15 @@ pipeline {
           registry = 'javasre2022/userservice'
           dockerHubCreds = 'docker_hub'
           dockerImage = ''
-  //         deploymentFile = 'k8s/deployment.yml'
     }
-  agent any
+  agent {
+    kubernetes {
+    label 'user-service-pod' 
+    idleMinutes 5 
+    yamlFile 'build-pod.yaml'  
+    defaultContainer 'maven'  
+    }
+  }
   stages {
     stage('Test') {
       steps {
@@ -20,20 +26,18 @@ pipeline {
                 sh 'mvn -f pom.xml clean package -DskipTests'
               }
             }
-      }
+   }
 
-      stage('Docker Build') {
+   stage('Docker Build') {
+     steps {
+       script {
+         echo "$registry:$currentBuild.number"
+         dockerImage = docker.build ("$registry", "-f Dockerfile .")
+       }
+     }
+   }
 
-             steps {
-                 script {
-                    echo "$registry:$currentBuild.number"
-                    dockerImage = docker.build ("$registry", "-f Dockerfile .")
-                 }
-             }
-      }
-
-      stage('Docker Deliver') {
-
+   stage('Docker Deliver') {
         steps {
           script {
             docker.withRegistry('',dockerHubCreds) {
