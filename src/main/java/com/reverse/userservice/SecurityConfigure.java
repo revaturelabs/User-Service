@@ -12,5 +12,6 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
     @Generated
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/**");
+        web.ignoring().antMatchers("/actuator/**");
     }
 }

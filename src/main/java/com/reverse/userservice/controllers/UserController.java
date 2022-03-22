@@ -21,6 +21,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping(path = "users")
 @Slf4j
+@CrossOrigin(origins="*")
 public class UserController {
 
     @Autowired
