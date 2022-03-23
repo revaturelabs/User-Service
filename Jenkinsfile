@@ -53,7 +53,7 @@ pipeline {
         }
         stage('Wait for approval') {
         when {
-            branch 'main'
+            branch 'master'
         }
         steps {
             script {
