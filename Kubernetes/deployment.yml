@@ -8,10 +8,15 @@ spec:
   selector:
     matchLabels:
       app: userservice-deployment
+      role: backend
+      env: canary
   template:
     metadata:
+      name: backend
       labels:
         app: userservice-deployment
+        role: backend
+        env: canary
     spec:
       containers:
       - image: javasre2022/userservice:latest
