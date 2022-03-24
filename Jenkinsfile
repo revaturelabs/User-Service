@@ -34,7 +34,6 @@ pipeline {
         }
     }
         
-
          stage('Checkout') {
           steps {
             checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'ghp', url: 'https://github.com/revaturelabs/User-Service']]])
