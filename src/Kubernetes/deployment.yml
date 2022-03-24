@@ -8,10 +8,14 @@ spec:
   selector:
     matchLabels:
       app: userservice-deployment
+      role: backend
+      env: canary
   template:
     metadata:
       labels:
         app: userservice-deployment
+        role: backend
+        env: canary
     spec:
       containers:
       - image: javasre2022/userservice:latest
@@ -30,8 +34,6 @@ spec:
         name: postservicecontainer
         ports: 
         - containerPort: 8081
-
-
 ---
 apiVersion: v1
 kind: Service
